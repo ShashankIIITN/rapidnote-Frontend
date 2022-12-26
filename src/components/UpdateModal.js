@@ -11,7 +11,6 @@ function UpdateModal(props) {
     const onClickUpdate = async () => {
         const res = await context.UpdateNote(Note.title, Note.description, Note.tag.trim() === "" ? "General" : Note.tag.trim(), context.SelectedNote._id);
 
-        console.log(res);
         if (res) {
             refcloseup.current.click();
             props.showAlert("success", "Successfully Updated !");
@@ -30,7 +29,7 @@ function UpdateModal(props) {
             </button>
             <div className="modal fade" id={props.modal.id} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
-                    <div className="modal-content">
+                    <div className=" modal-style modal-content">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="exampleModalLabel">{props.modal.type}</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

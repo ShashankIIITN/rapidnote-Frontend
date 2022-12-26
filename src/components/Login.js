@@ -15,7 +15,6 @@ function Auth(props) {
 
      let Wtoken = await context.Login(Luser.email, Luser.password);
 
-     console.log(Wtoken);
      if (Wtoken.success) {
           localStorage.setItem('Token', Wtoken.resjson.webtokendata);
           Navigate('/');

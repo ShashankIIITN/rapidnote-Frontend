@@ -21,7 +21,6 @@ function Signup(props) {
 
      let Wtoken = await context.SignUp(Nuser.name, Nuser.email, Nuser.password);
 
-     console.log(Wtoken);
      if (Wtoken.success) {
        await context.FetchNotes();
           localStorage.setItem('Token', Wtoken.resjson.webtokendata);

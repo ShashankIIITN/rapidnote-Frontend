@@ -20,7 +20,7 @@ function NoteBody(props) {
 
     return (
         <>{
-            Contexts.Notes && <div className=" All-Notes d-flex justify-content-center " style={{ gap: '25px', flexWrap: 'wrap', marginTop: '20px' }}>
+            Contexts.Notes && <div className=" All-Notes d-flex justify-content-center " style={{ gap: '25px', flexWrap: 'wrap', paddingTop: '20px',maxHeight:'85vh', overflowY:'auto' }}>
                 {Contexts.Notes.map((element) => {
                     return (
 

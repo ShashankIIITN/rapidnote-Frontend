@@ -41,12 +41,14 @@ const DataContext = (props) => {
                 "__v": 0
             }
         ]*/
-    const Host = "http://localhost:4000";
+    const Host = process.env.REACT_APP_HOST || "http://localhost:4000";
     const [Notes, setNotes] = useState(null);
     const [SelectedNote, setSelectedNote] = useState(null);
     const [SelectedList, setSelectedList] = useState([]);
+    const [progress, setProgress] =  useState(0);
 
     const FetchAllNotes = async () => {
+        setProgress(30);
         const url = `${Host}/api/notes/get-allnote`
         const response = await fetch(url, {
             method: 'GET',
@@ -55,8 +57,11 @@ const DataContext = (props) => {
                 "auth_token": localStorage.getItem("Token")
             }
         })
+        setProgress(70);
         const notesdata = await response.json();
+        setProgress(90);
         setNotes(notesdata);
+        setProgress(100);
     }
     const CreateNote = async (title, description, tag) => {
         let sts = false;
@@ -77,7 +82,6 @@ const DataContext = (props) => {
 
                 setNotes(newnote);
             }
-            console.log(newnote);
             sts = response.ok;
         } catch (error) {
             console.log(error);
@@ -132,12 +136,16 @@ const DataContext = (props) => {
         return sts.success;
     }
     const MultiDelete = async () => {
+        setProgress(30);
         for (let index = 0; index < SelectedList.length; index++) {
             const element = SelectedList[index];
             await DeleteNote(element);
         }
+        setProgress(60);
         setSelectedList([]);
+        setProgress(80);
         await FetchAllNotes();
+        setProgress(100);
     }
     const addSelected = (id) => {
         let ap = true;
@@ -155,7 +163,6 @@ const DataContext = (props) => {
             list.push(id);
         }
         setSelectedList(list);
-        console.log(SelectedList);
     }
     const deleteSelected = (id) => {
         let list = [];
@@ -165,19 +172,18 @@ const DataContext = (props) => {
             }
         });
         setSelectedList(list);
-        console.log(SelectedList);
     }
     const deleteClear = () => {
         let list = [];
         setSelectedList(list);
-        console.log(SelectedList);
     }
 
     const SignUp = async (name, email, password)=>{
+        setProgress(30);
         let sts = false;
         const url = `${Host}/api/auth/create-user/`
         try {
-
+            
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -185,18 +191,22 @@ const DataContext = (props) => {
                 },
                 body: JSON.stringify({name, email, password })
             })
+            setProgress(60);
             const resjson = await response.json();
+            setProgress(80);
             sts = {resjson, success:response.ok};
         } catch (error) {
             console.log(error);
         }
+        setProgress(100);
         return sts;
     }
     const Login = async (email, password)=>{
+        setProgress(30);
         let sts = false;
         const url = `${Host}/api/auth/login-user/`
         try {
-
+            
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -204,15 +214,18 @@ const DataContext = (props) => {
                 },
                 body: JSON.stringify({email, password })
             })
+            setProgress(60);
             const resjson = await response.json();
+            setProgress(80);
             sts = {resjson, success:response.ok};
         } catch (error) {
             console.log(error);
         }
+        setProgress(100);
         return sts;
     }
     return (
-        <NewContext.Provider value={{ Notes: Notes, FetchNotes: FetchAllNotes, CreateNote: CreateNote, UpdateNote: UpdateNote, setSelectedNote: setSelectedNote, SelectedNote: SelectedNote, DeleteNote: DeleteNote, append: addSelected, delete: deleteSelected, MultiDelete: MultiDelete, deleteClear: deleteClear, SignUp : SignUp, Login:Login }}>
+        <NewContext.Provider value={{ Notes: Notes, FetchNotes: FetchAllNotes, CreateNote: CreateNote, UpdateNote: UpdateNote, setSelectedNote: setSelectedNote, SelectedNote: SelectedNote, DeleteNote: DeleteNote, append: addSelected, delete: deleteSelected, MultiDelete: MultiDelete, deleteClear: deleteClear, SignUp : SignUp, Login:Login, progress:progress, setProgress:setProgress }}>
             {props.children}
         </NewContext.Provider>
     )

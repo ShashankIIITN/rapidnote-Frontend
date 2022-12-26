@@ -10,6 +10,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './components/Login'
 import NoteBody from './components/NoteBody';
 import Signup from './components/SignUp';
+import About from './components/About';
+import LoadingBar from 'react-top-loading-bar';
 
 
 function App() {
@@ -40,6 +42,11 @@ function App() {
   return (
     <>
       <BrowserRouter>
+      <LoadingBar
+        color='#a1eb34'
+        progress={Contexts.progress}
+        onLoaderFinished={() => Contexts.setProgress(0)}
+      />
         <UpdateModal modal={{ type: "Edit Note", btntype: "Update", id: "edit" }} showAlert={showAlert} />
         <AddModal modal={{ type: "Add Note", btntype: "Save", id: "add" }} showAlert={showAlert} />
         <Navbar title="Rapid Notes" />
@@ -50,6 +57,7 @@ function App() {
           <Route path='/' element={<NoteBody showAlert={showAlert} />} />
           <Route path='/Login' element={<Login showAlert={showAlert} />} />
           <Route path='/Signup' element={<Signup showAlert={showAlert} />} />
+          <Route path='/About' element={<About showAlert={showAlert} />} />
         </Routes>
       </BrowserRouter>
     </>
