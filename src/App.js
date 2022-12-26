@@ -6,7 +6,7 @@ import Navbar from './components/Navbar';
 import UpdateModal from './components/UpdateModal';
 import AddModal from './components/AddModal';
 import Alert from './components/Alert';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import Login from './components/Login'
 import NoteBody from './components/NoteBody';
 import Signup from './components/SignUp';
@@ -42,23 +42,27 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <LoadingBar
-        color='#a1eb34'
-        progress={Contexts.progress}
-        onLoaderFinished={() => Contexts.setProgress(0)}
-      />
-        <UpdateModal modal={{ type: "Edit Note", btntype: "Update", id: "edit" }} showAlert={showAlert} />
-        <AddModal modal={{ type: "Add Note", btntype: "Save", id: "add" }} showAlert={showAlert} />
-        <Navbar title="Rapid Notes" />
-        <div style={{ height: '40px' }}>
-          <Alert Alert={AlertStatus} />
-        </div>
-        <Routes>
-          <Route path='/' element={<NoteBody showAlert={showAlert} />} />
-          <Route path='/Login' element={<Login showAlert={showAlert} />} />
-          <Route path='/Signup' element={<Signup showAlert={showAlert} />} />
-          <Route path='/About' element={<About showAlert={showAlert} />} />
-        </Routes>
+        <HashRouter basename='/'>
+
+
+          <LoadingBar
+            color='#a1eb34'
+            progress={Contexts.progress}
+            onLoaderFinished={() => Contexts.setProgress(0)}
+          />
+          <UpdateModal modal={{ type: "Edit Note", btntype: "Update", id: "edit" }} showAlert={showAlert} />
+          <AddModal modal={{ type: "Add Note", btntype: "Save", id: "add" }} showAlert={showAlert} />
+          <Navbar title="Rapid Notes" />
+          <div style={{ height: '40px' }}>
+            <Alert Alert={AlertStatus} />
+          </div>
+          <Routes>
+            <Route path='/' element={<NoteBody showAlert={showAlert} />} />
+            <Route path='/Login' element={<Login showAlert={showAlert} />} />
+            <Route path='/Signup' element={<Signup showAlert={showAlert} />} />
+            <Route path='/About' element={<About showAlert={showAlert} />} />
+          </Routes>
+        </HashRouter>
       </BrowserRouter>
     </>
   );
